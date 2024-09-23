@@ -58,7 +58,7 @@ def create_window():
 
 root.title("Everquest II Seller monitor")
 
-utilObj = dirutils.Dirutils()
+utilObj = dirutils.dirutils()
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
 #driveList = ["C:", "F:", "H:"]

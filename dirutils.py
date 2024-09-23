@@ -2,7 +2,7 @@ import os
 import re
 from pathlib import Path
 
-class Dirutils:
+class dirutils:
 
     workingPath = ""
 
