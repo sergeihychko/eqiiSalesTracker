@@ -2,6 +2,7 @@ from configparser import ConfigParser
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+import customtkinter
 import dirutils
 import driver
 
@@ -58,16 +59,23 @@ def dc(event):
     print("This is the event passed" + event)
     driveLetter = event
     utilObj.current_drive = driveLetter
-    folderList = utilObj.findEQII(driveLetter, "Everquest II")
-    varF.set(folderList[0])
-    drop = OptionMenu(root, varF, *folderList, command=foldSelect)
+    folder_list = utilObj.findEQII(driveLetter, "Everquest II")
+    varF.set(folder_list[0])
+    drop = OptionMenu(root, varF, *folder_list, command=foldSelect)
     drop.grid(row=1, column=2)
 
 def create_window():
     detail_pane = tk.Toplevel()
     detail_pane.geometry("400x300")
     detail_pane.title("Sales Details")
+    varD=StringVar()
+    file_list = ["No files present", "test1", "test2"]
+    varD.set(file_list[0])
     ttk.Label(detail_pane, text='Detail Pane').pack()
+    drop_details = OptionMenu(detail_pane, varD, *file_list)
+    drop_details.pack()
+    my_frame = customtkinter.CTkScrollableFrame(detail_pane)
+    my_frame.pack(pady=20)
 
 root.title("Everquest II Seller monitor")
 
