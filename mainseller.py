@@ -1,21 +1,11 @@
 from configparser import ConfigParser
+from operator import itemgetter
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
-import customtkinter
 import dirutils
 import driver
-
-root = Tk()
-root.geometry("280x190")
-root.minsize(280, 190)
-root.maxsize(520, 400)
-#load configuration options
-config = ConfigParser()
-config.read('settings.ini')
-application_title = config.get('main-section', 'application_title')
-output_directory = config.get('main-section', 'output_directory')
-print(application_title + ":" + output_directory)
+import filereader
 
 def generateFiles():
     search_path = utilObj.workingPath
@@ -65,18 +55,71 @@ def dc(event):
     drop.grid(row=1, column=2)
 
 def create_window():
+    global detail_pane
+    global details_frame
     detail_pane = tk.Toplevel()
-    detail_pane.geometry("400x300")
+    detail_pane.geometry("600x340")
     detail_pane.title("Sales Details")
     varD=StringVar()
-    file_list = ["No files present", "test1", "test2"]
+    mlist = utilObj.directoryList(output_directory)
+    if len(mlist) == 0:
+        file_list = ["No files present"]
+    else:
+        file_list = mlist
     varD.set(file_list[0])
-    ttk.Label(detail_pane, text='Detail Pane').pack()
-    drop_details = OptionMenu(detail_pane, varD, *file_list)
+    det_label = ttk.Label(detail_pane, text='Detail Pane')
+    det_label.pack()
+    drop_details = OptionMenu(detail_pane, varD, *file_list, command=repopulate_tree)
     drop_details.pack()
-    my_frame = customtkinter.CTkScrollableFrame(detail_pane)
-    my_frame.pack(pady=20)
 
+    details_frame = ttk.Treeview(detail_pane)
+    details_frame['columns'] = ("Item", "Price")
+    details_frame.column("#0", width=40, minwidth=20)
+    details_frame.column("Item",anchor=W, width=240)
+    details_frame.column("Price", anchor=CENTER, width=100)
+    details_frame.heading("#0", text="Label", anchor=W)
+    details_frame.heading("Item", text="Item", anchor=W)
+    details_frame.heading("Price", text="Price", anchor=CENTER)
+    populate_detail(details_frame,'')
+    details_frame.pack(pady=1)
+    detail_pane.mainloop()
+
+def populate_detail(panel, varD):
+    print("populating detail_pane")
+    filereaderObj = filereader.Filereader()
+    filereaderObj.rootDir = output_directory
+    if len(varD) == 0:
+        pass
+    else:
+        filereaderObj.fileToSearch = varD
+    file_list = filereaderObj.getRows()
+    if len(file_list) == 0:
+        print("The file " + filereaderObj.fileToSearch + " was empty!")
+    else:
+        for i in file_list:
+            print("detail is : " + i)
+            x = i.split("for ")
+            item = x[0]
+            price = x[1]
+            panel.insert(parent='', index='end', text='', values=(item, price))
+
+def repopulate_tree(varD):
+    for row in details_frame.get_children():
+        details_frame.delete(row)
+    detail_pane.update()
+    populate_detail(details_frame, varD)
+#end method definitions
+
+root = Tk()
+root.geometry("280x190")
+root.minsize(280, 190)
+root.maxsize(520, 400)
+#load configuration options
+config = ConfigParser()
+config.read('settings.ini')
+application_title = config.get('main-section', 'application_title')
+output_directory = config.get('main-section', 'output_directory')
+print(application_title + ":" + output_directory)
 root.title("Everquest II Seller monitor")
 
 utilObj = dirutils.Dirutils()
