@@ -1,3 +1,4 @@
+from configparser import ConfigParser
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -8,6 +9,12 @@ root = Tk()
 root.geometry("280x190")
 root.minsize(280, 190)
 root.maxsize(520, 400)
+#load configuration options
+config = ConfigParser()
+config.read('settings.ini')
+application_title = config.get('main-section', 'application_title')
+output_directory = config.get('main-section', 'output_directory')
+print(application_title + ":" + output_directory)
 
 def generateFiles():
     search_path = utilObj.workingPath
