@@ -6,7 +6,6 @@ class Parser:
     fileToSearch = ""
     outputFile = ""
 
-
     def parseLogFile(self):
         print("outputfile :" + self.outputFile)
         if os.path.exists(self.outputFile):

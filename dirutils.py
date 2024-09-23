@@ -2,9 +2,13 @@ import os
 import re
 from pathlib import Path
 
-class dirutils:
+class Dirutils:
 
+    current_drive = ""
+    directory_name = "Everquest II"
     workingPath = ""
+    server_name = ""
+    generatePath = ""
 
     def directoryList(self, dirToSearch):
         regex = ".*(.2024)"
