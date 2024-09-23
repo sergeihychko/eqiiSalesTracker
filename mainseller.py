@@ -23,6 +23,7 @@ def generateFiles():
     driver_object = driver.Driver()
     driver_object.directory_name = utilObj.workingPath
     driver_object.server_name = utilObj.server_name
+    driver_object.output_dir = output_directory
     print(" using driver obj ")
     driver_object.generate_directory()
     status = Label(root, text="Generating files from the logs.", relief=SUNKEN, anchor=E)
