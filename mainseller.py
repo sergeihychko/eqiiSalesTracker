@@ -17,10 +17,13 @@ def generateFiles():
     driver_object.directory_name = utilObj.workingPath
     driver_object.server_name = utilObj.server_name
     driver_object.output_dir = output_directory
-    print(" using driver obj ")
+    status = Label(root, text="Generating files from logs.", relief=SUNKEN, anchor=E)
+    status.grid(row=4, column=2, columnspan=3, sticky=W + E)
+    status.update()
     driver_object.generate_directory()
-    status = Label(root, text="Generating files from the logs.", relief=SUNKEN, anchor=E)
+    status = Label(root, text="Sales files generated.", relief=SUNKEN, anchor=E)
     status.grid(row=4, column=2, columnspan=3, sticky=W+E)
+    status.update()
 
 def dwClick():
     pass
@@ -155,9 +158,9 @@ def repopulate_tree(varD):
 #end method definitions
 
 root = Tk()
-root.geometry("280x190")
-root.minsize(280, 190)
-root.maxsize(520, 400)
+root.geometry("290x185")
+root.minsize(290, 185)
+root.maxsize(290, 185)
 #load configuration options
 config = ConfigParser()
 config.read('settings.ini')

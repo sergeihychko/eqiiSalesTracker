@@ -2,7 +2,6 @@ import dirutils
 import parser
 
 class Driver:
-
     directory_name = ""
     server_name = ""
     output_dir = ""
@@ -22,7 +21,6 @@ class Driver:
         #myParser.rootDir = "D:\\Everquest II\\logs\\Anashti Sul"
         myParser.outputFile = ""
 
-        #TODO read output directory from config file
         for logs in fileList:
             cName: ""
             cName = logs.partition("eq2log_")[2]
