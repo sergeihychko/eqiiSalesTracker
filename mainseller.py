@@ -74,7 +74,7 @@ def create_window():
 
     details_frame = ttk.Treeview(detail_pane)
     details_frame['columns'] = ("Item", "Price")
-    details_frame.column("#0", width=40, minwidth=20)
+    details_frame.column("#0", width=100, minwidth=90)
     details_frame.column("Item",anchor=W, width=240)
     details_frame.column("Price", anchor=CENTER, width=100)
     details_frame.heading("#0", text="Label", anchor=W)
@@ -98,10 +98,17 @@ def populate_detail(panel, varD):
     else:
         for i in file_list:
             print("detail is : " + i)
-            x = i.split("for ")
-            item = x[0]
-            price = x[1]
-            panel.insert(parent='', index='end', text='', values=(item, price))
+            price = ""
+            datestamp = ""
+            item = ""
+            if i.find("for "):
+                itemdelimited = i.split("for ")
+                item = itemdelimited[0]
+                if len(itemdelimited[1]):
+                    pricetime = itemdelimited[1].split("\\")
+                    price = pricetime[0]
+                    datestamp = pricetime[1]
+            panel.insert(parent='', index='end', text=datestamp, values=(item, price))
 
 def repopulate_tree(varD):
     for row in details_frame.get_children():

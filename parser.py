@@ -19,6 +19,11 @@ class Parser:
                 with open(fullPath,"r") as inputfile:
                     data = inputfile.readlines()
                     for line in data:
+                        if len(line) > 38:
+                            datetime = line[13:37]
+                            datestamp = datetime[4:10] + ", " + datetime[20:24]
+                        else:
+                            datetime = ""
                         if 'bought ' in line:
                             bought_line = line
                             if len(bought_line) > 0:
@@ -41,5 +46,5 @@ class Parser:
                                     price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
                                     price = price[0:price.find("\\")]
                                     print(item + " for " + price)
-                                    oFile.write(item + " for " + price + "\n")
+                                    oFile.write(item + " for " + price + "\\" + datestamp + "\n")
         oFile.close()
