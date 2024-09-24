@@ -18,7 +18,6 @@ class Driver:
 
         myParser = parser.Parser()
         myParser.rootDir = directory_list_path
-        #myParser.rootDir = "D:\\Everquest II\\logs\\Anashti Sul"
         myParser.outputFile = ""
 
         for logs in fileList:

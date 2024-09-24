@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 import pandas as pd
+import re
 #custom imports
 import dirutils
 import driver
@@ -123,6 +124,7 @@ def populate_detail(panel, varD):
 
 def display_tree(pane, df):
     global details_window
+    p = re.compile(r'\d+\w*\b')
     dataframe_list = list(df)
     result_set = df.to_numpy().tolist()
     details_window = ttk.Treeview(pane, selectmode='browse',
@@ -131,9 +133,19 @@ def display_tree(pane, df):
     for col in dataframe_list:
         details_window.column(col, width=100, anchor='c')
         details_window.heading(col, text=col, command=lambda col=col: sort_on_column(col))
+    details_window.tag_configure('GREEN_TAG', foreground='green')
     for dt in result_set:
         v = [r for r in dt]  # creating a list from each row
-        details_window.insert("", 'end', iid=v[0], values=v)
+        try:
+            sales_price = int(v[3].split("g")[0])
+            price_point = int(price_limit)
+        except ValueError:
+            sales_price=0
+            price_point=10
+        if sales_price>price_point:
+            details_window.insert("", 'end', iid=v[0], values=v, tag='GREEN_TAG')
+        else:
+            details_window.insert("", 'end', iid=v[0], values=v)
 
 def sort_on_column(column):
     global df,sort_order
@@ -161,17 +173,19 @@ def update_statusbar(message):
 root = Tk()
 root.geometry("290x185")
 root.minsize(290, 185)
-root.maxsize(290, 185)
+root.maxsize(580, 370)
 #load configuration options
 config = ConfigParser()
 config.read('settings.ini')
 application_title = config.get('main-section', 'application_title')
 output_directory = config.get('main-section', 'output_directory')
-print(application_title + ":" + output_directory)
+price_limit = config.get('main-section', 'price_limit')
+
 root.title("Everquest II Seller monitor")
 sort_order = True
 
 utilObj = dirutils.Dirutils()
+utilObj.directory_name = application_title
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
 #driveList = ["C:", "F:", "H:"]

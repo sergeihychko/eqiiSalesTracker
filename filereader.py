@@ -1,5 +1,4 @@
 import os
-import re
 
 class Filereader:
     rootDir = ""
@@ -14,6 +13,5 @@ class Filereader:
                 with open(fullPath,"r") as input_file:
                     data = input_file.readlines()
                     for line in data:
-                        print("adding row")
                         return_rows.append(line)
         return return_rows

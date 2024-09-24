@@ -5,7 +5,7 @@ from pathlib import Path
 class Dirutils:
 
     current_drive = ""
-    directory_name = "Everquest II"
+    directory_name = ""
     workingPath = ""
     server_name = ""
     generatePath = ""
