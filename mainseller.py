@@ -17,13 +17,9 @@ def generateFiles():
     driver_object.directory_name = utilObj.workingPath
     driver_object.server_name = utilObj.server_name
     driver_object.output_dir = output_directory
-    status = Label(root, text="Generating files from logs.", relief=SUNKEN, anchor=E)
-    status.grid(row=4, column=2, columnspan=3, sticky=W + E)
-    status.update()
+    update_statusbar("Generating files from logs")
     driver_object.generate_directory()
-    status = Label(root, text="Sales files generated.", relief=SUNKEN, anchor=E)
-    status.grid(row=4, column=2, columnspan=3, sticky=W+E)
-    status.update()
+    update_statusbar("Sales files generated")
 
 def dwClick():
     pass
@@ -35,16 +31,14 @@ def foldSelect(adjPath):
     server_list = utilObj.findEQIIServer(adjPath)
     if len(server_list) == 0:
         print("length was zero")
-        status = Label(root, text="No Logs Found.", relief=SUNKEN, anchor=E)
-        status.grid(row=4, column=2, columnspan=3, sticky=W + E)
+        update_statusbar("No Logs Found.")
     else:
         varSer.set(server_list[0])
         dropSer = OptionMenu(root, varSer, *server_list, command=folderSelected)
         dropSer.grid(row=2, column=2)
         myButton = Button(root, text="Generate Files", padx=0, pady=5, command=generateFiles)
         myButton.grid(row=2, column=0)
-        status = Label(root, text="Select Server.", relief=SUNKEN, anchor=E)
-        status.grid(row=4, column=2, columnspan=3, sticky=W + E)
+        update_statusbar("Select Server")
 
 def folderSelected(varSer):
     utilObj.server_name = varSer
@@ -53,11 +47,13 @@ def dc(event):
     varF = StringVar()
     print("This is the event passed" + event)
     driveLetter = event
+    update_statusbar("Searching Drive  " + driveLetter)
     utilObj.current_drive = driveLetter
     folder_list = utilObj.findEQII(driveLetter, "Everquest II")
     varF.set(folder_list[0])
     drop = OptionMenu(root, varF, *folder_list, command=foldSelect)
     drop.grid(row=1, column=2)
+    update_statusbar("Drive Search Complete")
 
 def create_window():
     global detail_pane
@@ -155,6 +151,11 @@ def repopulate_tree(varD):
         detail_pane.update()
     except NameError:
         print("first time, panel not defined")
+
+def update_statusbar(message):
+    status = Label(root, text=message, relief=SUNKEN, anchor=E)
+    status.grid(row=4, column=2, columnspan=3, sticky=W + E)
+    status.update()
 #end method definitions
 
 root = Tk()
@@ -193,7 +194,6 @@ myLabelFiller.grid(row=1, column=0)
 myButton.grid(row = 2, column = 0)
 dwButton.grid(row = 3, column = 0)
 
-status = Label(root, text="current status", relief = SUNKEN, anchor=E)
-status.grid(row = 4, column = 2, columnspan=3, sticky=W+E)
+update_statusbar("idle")
 
 root.mainloop()
