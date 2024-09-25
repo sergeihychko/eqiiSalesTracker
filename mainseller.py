@@ -1,14 +1,16 @@
+import re
+import tkinter as tk
 from configparser import ConfigParser
-from operator import itemgetter
 from tkinter import *
 from tkinter import ttk
-import tkinter as tk
+
 import pandas as pd
-import re
-#custom imports
+
+# custom imports
 import dirutils
 import driver
 import filereader
+
 
 def generateFiles():
     search_path = utilObj.workingPath
@@ -170,10 +172,6 @@ def update_statusbar(message):
     status.update()
 #end method definitions
 
-root = Tk()
-root.geometry("290x185")
-root.minsize(290, 185)
-root.maxsize(580, 370)
 #load configuration options
 config = ConfigParser()
 config.read('settings.ini')
@@ -181,33 +179,32 @@ application_title = config.get('main-section', 'application_title')
 output_directory = config.get('main-section', 'output_directory')
 price_limit = config.get('main-section', 'price_limit')
 
-root.title("Everquest II Seller monitor")
-sort_order = True
-
+#Instantiate utility classes
 utilObj = dirutils.Dirutils()
 utilObj.directory_name = application_title
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
-#driveList = ["C:", "F:", "H:"]
+
+# Begin defining the top level pane.
+root = Tk()
+root.geometry("290x185")
+root.minsize(290, 185)
+root.maxsize(580, 370)
+root.title("Everquest II Seller monitor")
+sort_order = True
 myLabel0 = Label(root, text = "Available Drives: ")
 var = StringVar()
 var.set(driveList[0])
 drop = OptionMenu(root, var, *driveList, command = dc)
 myLabel0.grid(row = 0, column = 0)
 drop.grid(row = 0, column = 2)
-
 myLabel3 = Label(root, text="Available Installations:")
 myLabel3.grid(row=1, column=0)
-
-
 myButton = Button(root, text = "Generate Files", padx = 0, pady = 5)
 dwButton = Button(root, text = "Data Window", padx = 0, pady = 5, command = create_window)
-
 myLabelFiller = Label(root, text="")
 myLabelFiller.grid(row=1, column=0)
 myButton.grid(row = 2, column = 0)
 dwButton.grid(row = 3, column = 0)
-
 update_statusbar("idle")
-
 root.mainloop()
