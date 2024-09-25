@@ -108,14 +108,14 @@ def populate_detail(panel, varD):
             if i.find("for "):
                 item_delimited = i.split("for ")
                 item = item_delimited[0]
-                if len(item_delimited[1]):
+                if len(item_delimited) == 2:
                     pricetime = item_delimited[1].split("\\")
                     price = pricetime[0]
                     datestamp = pricetime[1]
                     ids.append(index)
-                prices.append(price)
-                items.append(item)
-                dates.append(datestamp)
+                    prices.append(price)
+                    items.append(item)
+                    dates.append(datestamp)
         data = {
             "id": ids,
             "Date": dates,
@@ -145,7 +145,8 @@ def display_tree(pane, df):
     for dt in result_set:
         v = [r for r in dt]  # creating a list from each row
         try:
-            sales_price = int(v[3].split("g")[0])
+            sales_price = resolve_price(v[3])
+            v[3] = float("{:.4f}".format(sales_price))
             price_point = int(price_limit)
         except ValueError:
             sales_price=0
@@ -176,6 +177,21 @@ def update_statusbar(message):
     status = Label(root, text=message, relief=SUNKEN, anchor=E)
     status.grid(row=4, column=2, columnspan=3, sticky=W + E)
     status.update()
+
+def resolve_price(data):
+    ret_val: float = 0.0
+    price_array = data.split("~")
+    for index in price_array:
+        left_op = int(index[0:2])
+        if index.find('p')!=-1:
+            ret_val += float(left_op*100)
+        elif index.find('g')!=-1:
+            ret_val += float(left_op)
+        elif index.find('s')!=-1:
+            ret_val += float(left_op/100)
+        else:
+            ret_val += float(left_op/1000)
+    return ret_val
 #end method definitions
 
 #load configuration options

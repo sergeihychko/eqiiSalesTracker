@@ -23,7 +23,9 @@ class Parser:
                             datestamp = datetime[4:10] + ", " + datetime[20:24]
                         else:
                             datetime = ""
-                        if 'bought ' in line:
+                        p = re.compile(r'bought [0-9]+')
+                        match = p.search(line)
+                        if match is not None:
                             bought_line = line
                             if len(bought_line) > 0:
                                 if bought_line.find("You bought") is -1:
@@ -40,7 +42,16 @@ class Parser:
                                     dlm = bought_data.find(":") + 1
                                     details = bought_data[dlm:len(bought_data)]
                                     item = details[0:details.find("\\")]
-                                    price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
-                                    price = price[0:price.find("\\")]
+
+                                    price = ""
+                                    rawprice = bought_data[bought_data.find("for ") + 12:len(bought_data)-4]
+                                    longpiece = rawprice.split(",")
+                                    for i in longpiece:
+                                        if price == "":
+                                            price = i
+                                        else:
+                                            price = price + ("~" + i[9:12])
+                                    #price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
+                                    #price = price[0:price.find("\\")]
                                     oFile.write(item + " for " + price + "\\" + datestamp + "\n")
         oFile.close()
