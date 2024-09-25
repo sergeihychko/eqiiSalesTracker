@@ -7,13 +7,9 @@ class Driver:
     output_dir = ""
 
     def generate_directory(self):
-        print("debug:")
-        print("debug dir :" + self.directory_name)
-
         utilObj = dirutils.Dirutils()
         directory_list_path = self.directory_name + "\\" + "\\" + "logs" + "\\" + "\\" + self.server_name
         fileList = utilObj.directoryList(directory_list_path)
-        print("Files not containing year")
         print(' '.join(fileList))
 
         myParser = parser.Parser()

@@ -14,7 +14,6 @@ class Dirutils:
         regex = ".*(.2024)"
         dirList = []
         for i in os.listdir(dirToSearch):
-            #print(i)
             if re.match(regex, i):
                 pass
             else:
@@ -33,7 +32,6 @@ class Dirutils:
         return outputList
 
     def findEQIIServer(self, head_dir):
-        print("findEQIIServer path :" + head_dir)
         d = head_dir + "\\" + "\\" + "logs" + "\\" + "\\"
         outputList = []
         filePath = Path(d)

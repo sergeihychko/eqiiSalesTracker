@@ -6,12 +6,13 @@ from tkinter import ttk
 
 import pandas as pd
 
-# custom imports
+# project class imports
 import dirutils
 import driver
 import filereader
 
 
+# method definitions
 def generateFiles():
     search_path = utilObj.workingPath
     print(" inside generateFiles() :" + search_path)
@@ -105,10 +106,10 @@ def populate_detail(panel, varD):
             datestamp = None
             item = None
             if i.find("for "):
-                itemdelimited = i.split("for ")
-                item = itemdelimited[0]
-                if len(itemdelimited[1]):
-                    pricetime = itemdelimited[1].split("\\")
+                item_delimited = i.split("for ")
+                item = item_delimited[0]
+                if len(item_delimited[1]):
+                    pricetime = item_delimited[1].split("\\")
                     price = pricetime[0]
                     datestamp = pricetime[1]
                     ids.append(index)
@@ -129,12 +130,17 @@ def display_tree(pane, df):
     p = re.compile(r'\d+\w*\b')
     dataframe_list = list(df)
     result_set = df.to_numpy().tolist()
-    details_window = ttk.Treeview(pane, selectmode='browse',
-                                  show='headings', height=10, columns=dataframe_list)
+    details_window = ttk.Treeview(pane, selectmode='browse', show='headings', height=10, columns=dataframe_list)
+    # scrollbars
+    vsb = Scrollbar(details_window, orient="vertical", command=details_window.yview)
+    vsb.place(relx=0.978, rely=0.175, relheight=0.713, relwidth=0.020)
+    details_window.configure(yscrollcommand=vsb.set)
+    #TODO fine tune the size of the right scrollbar
     details_window.grid(row=2, column=0, columnspan=3, padx=15, pady=10)
     for col in dataframe_list:
         details_window.column(col, width=100, anchor='c')
         details_window.heading(col, text=col, command=lambda col=col: sort_on_column(col))
+    # Populate tree from dataframe
     details_window.tag_configure('GREEN_TAG', foreground='green')
     for dt in result_set:
         v = [r for r in dt]  # creating a list from each row
