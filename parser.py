@@ -13,6 +13,8 @@ class Parser:
     seller = ""
 
     def parseLogFile(self):
+        #TODO redo this method to store the line items into a list and then call a function to write to the output file and the database separately.
+
         conn = sqlite3.connect('eqiisales.db')
         c = conn.cursor()
         print("testing db ")
