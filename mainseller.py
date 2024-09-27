@@ -10,6 +10,7 @@ import pandas as pd
 import dirutils
 import driver
 import filereader
+import schema
 
 
 # method definitions
@@ -175,7 +176,7 @@ def repopulate_tree(varD):
 
 def update_statusbar(message):
     status = Label(root, text=message, relief=SUNKEN, anchor=E)
-    status.grid(row=4, column=2, columnspan=3, sticky=W + E)
+    status.grid(row=5, column=2, columnspan=3, sticky=W + E)
     status.update()
 
 def resolve_price(data):
@@ -192,6 +193,10 @@ def resolve_price(data):
         else:
             ret_val += float(left_op/1000)
     return ret_val
+
+def createdb():
+    schema.create_tables()
+    print("database schema created")
 #end method definitions
 
 #load configuration options
@@ -224,9 +229,11 @@ myLabel3 = Label(root, text="Available Installations:")
 myLabel3.grid(row=1, column=0)
 myButton = Button(root, text = "Generate Files", padx = 0, pady = 5)
 dwButton = Button(root, text = "Data Window", padx = 0, pady = 5, command = create_window)
+dbButton = Button(root, text = "Generate Database schema", padx = 0, pady = 5, command=createdb)
 myLabelFiller = Label(root, text="")
 myLabelFiller.grid(row=1, column=0)
 myButton.grid(row = 2, column = 0)
 dwButton.grid(row = 3, column = 0)
+dbButton.grid(row = 4, column = 0)
 update_statusbar("idle")
 root.mainloop()
