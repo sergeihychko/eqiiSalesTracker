@@ -22,12 +22,10 @@ def create_tables(database):
             cursor = conn.cursor()
             for statement in sql_statements:
                 cursor.execute(statement)
-                print("statement :" + statement + " was executed")
 
             conn.commit()
     except sqlite3.Error as e:
         print(e)
-    print("database :" + db_name + " was created")
 
 if __name__ == '__main__':
     create_tables()

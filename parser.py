@@ -1,7 +1,8 @@
 import os
 import re
 import sqlite3
-import uuid
+
+import salesitem
 
 
 class Parser:
@@ -65,8 +66,8 @@ class Parser:
                                     #price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
                                     #price = price[0:price.find("\\")]
                                     oFile.write(item + " for " + price + "\\" + datestamp + "\n")
-                                    unique_id = str(uuid.uuid4())
-                                    c.execute("INSERT INTO rawsales (id, server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?, ?)", (unique_id, self.server, self.seller, datestamp, item, price))
+                                    sitem = salesitem.SalesItem(self.server, self.seller, datestamp, item, price, price)
+                                    c.execute("INSERT INTO rawsales (id, server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?, ?)", (sitem.id, sitem.server,sitem.seller, sitem.salesdate, sitem.description, sitem.price))
                                     conn.commit()
                                     print("database insert successful")
         oFile.close()

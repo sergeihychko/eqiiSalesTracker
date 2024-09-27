@@ -1,13 +1,14 @@
-from dataclasses import dataclass
-from datetime import datetime
+import uuid
+from dataclasses import dataclass, field
 
 
 @dataclass
 class SalesItem:
     server: str
     seller: str
-    salesdate: datetime
+    salesdate: str
     description: str
     price: str
-    absoluteprice: float
+    absoluteprice: str
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
