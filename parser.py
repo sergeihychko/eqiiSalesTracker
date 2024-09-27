@@ -1,12 +1,21 @@
 import os
 import re
+import sqlite3
+import uuid
+
 
 class Parser:
     rootDir = ""
     fileToSearch = ""
     outputFile = ""
+    database = ""
+    server = ""
+    seller = ""
 
     def parseLogFile(self):
+        conn = sqlite3.connect('eqiisales.db')
+        c = conn.cursor()
+        print("testing db ")
         print("outputfile :" + self.outputFile)
         if os.path.exists(self.outputFile):
             os.remove(self.outputFile)
@@ -54,4 +63,10 @@ class Parser:
                                     #price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
                                     #price = price[0:price.find("\\")]
                                     oFile.write(item + " for " + price + "\\" + datestamp + "\n")
+                                    unique_id = str(uuid.uuid4())
+                                    c.execute("INSERT INTO rawsales (id, server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?, ?)", (unique_id, self.server, self.seller, datestamp, item, price))
+                                    conn.commit()
+                                    print("database insert successful")
         oFile.close()
+        conn.close()
+

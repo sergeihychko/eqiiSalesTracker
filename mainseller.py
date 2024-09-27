@@ -22,6 +22,7 @@ def generateFiles():
     driver_object.directory_name = utilObj.workingPath
     driver_object.server_name = utilObj.server_name
     driver_object.output_dir = output_directory
+    driver_object.db_name = database
     update_statusbar("Generating files from logs")
     driver_object.generate_directory()
     update_statusbar("Sales files generated")
@@ -194,9 +195,8 @@ def resolve_price(data):
             ret_val += float(left_op/1000)
     return ret_val
 
-def createdb():
-    schema.create_tables()
-    print("database schema created")
+def createdb(database):
+    schema.create_tables(database)
 #end method definitions
 
 #load configuration options
@@ -205,12 +205,14 @@ config.read('settings.ini')
 application_title = config.get('main-section', 'application_title')
 output_directory = config.get('main-section', 'output_directory')
 price_limit = config.get('main-section', 'price_limit')
+database = config.get('main-section', 'database_name')
 
 #Instantiate utility classes
 utilObj = dirutils.Dirutils()
 utilObj.directory_name = application_title
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
+createdb(database)
 
 # Begin defining the top level pane.
 root = Tk()
@@ -229,11 +231,9 @@ myLabel3 = Label(root, text="Available Installations:")
 myLabel3.grid(row=1, column=0)
 myButton = Button(root, text = "Generate Files", padx = 0, pady = 5)
 dwButton = Button(root, text = "Data Window", padx = 0, pady = 5, command = create_window)
-dbButton = Button(root, text = "Generate Database schema", padx = 0, pady = 5, command=createdb)
 myLabelFiller = Label(root, text="")
 myLabelFiller.grid(row=1, column=0)
 myButton.grid(row = 2, column = 0)
 dwButton.grid(row = 3, column = 0)
-dbButton.grid(row = 4, column = 0)
 update_statusbar("idle")
 root.mainloop()
