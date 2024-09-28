@@ -50,7 +50,6 @@ def folderSelected(varSer):
 
 def dc(event):
     varF = StringVar()
-    print("This is the event passed" + event)
     driveLetter = event
     update_statusbar("Searching Drive  " + driveLetter)
     utilObj.current_drive = driveLetter
@@ -211,7 +210,7 @@ utilObj = dirutils.Dirutils()
 utilObj.directory_name = application_title
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
-createdb(database)
+#createdb(database)
 
 # Begin defining the top level pane.
 root = Tk()

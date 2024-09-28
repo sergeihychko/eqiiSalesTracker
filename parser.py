@@ -42,7 +42,6 @@ class Parser:
                                 else:
                                     bought_data =""
                                 if len(bought_data) > 0:
-                                    print(bought_data)
                                     num_bought = 0
                                     try:
                                         num_bought = re.search(r'\d+', bought_data).group()
@@ -68,4 +67,5 @@ class Parser:
         outputwriter.writeRows(rows)
         print("calling dbupdate with rows")
         updatedatabase.update(rows)
+
 
