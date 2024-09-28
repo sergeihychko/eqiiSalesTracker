@@ -7,10 +7,9 @@ from tkinter import ttk
 import pandas as pd
 
 # project class imports
-import dirutils
 import driver
-import filereader
-import schema
+from fileio import filereader, dirutils
+from sql import schema
 
 
 # method definitions

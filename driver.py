@@ -1,5 +1,6 @@
-import dirutils
 import parser
+from fileio import dirutils
+
 
 class Driver:
     directory_name = ""

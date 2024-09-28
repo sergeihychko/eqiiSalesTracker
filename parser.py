@@ -1,8 +1,9 @@
 import os
 import re
-import sqlite3
 
-import salesitem
+from data import salesitem
+from fileio import filewriter
+from sql import updatedatabase
 
 
 class Parser:
@@ -15,14 +16,10 @@ class Parser:
 
     def parseLogFile(self):
         #TODO redo this method to store the line items into a list and then call a function to write to the output file and the database separately.
+        rows = []
+        outputwriter = filewriter.Filewriter()
+        outputwriter.outputFile=self.outputFile
 
-        conn = sqlite3.connect('eqiisales.db')
-        c = conn.cursor()
-        print("testing db ")
-        print("outputfile :" + self.outputFile)
-        if os.path.exists(self.outputFile):
-            os.remove(self.outputFile)
-        oFile = open(self.outputFile, "w+")
         for relPath,dirs,files in os.walk(self.rootDir):
             if self.fileToSearch in files:
                 fullPath = os.path.join(self.rootDir,relPath,self.fileToSearch)
@@ -65,11 +62,10 @@ class Parser:
                                             price = price + ("~" + i[9:12])
                                     #price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
                                     #price = price[0:price.find("\\")]
-                                    oFile.write(item + " for " + price + "\\" + datestamp + "\n")
                                     sitem = salesitem.SalesItem(self.server, self.seller, datestamp, item, price, price)
-                                    c.execute("INSERT INTO rawsales (id, server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?, ?)", (sitem.id, sitem.server,sitem.seller, sitem.salesdate, sitem.description, sitem.price))
-                                    conn.commit()
-                                    print("database insert successful")
-        oFile.close()
-        conn.close()
+                                    rows.append(sitem)
+        print("calling outputwriter with rows")
+        outputwriter.writeRows(rows)
+        print("calling dbupdate with rows")
+        updatedatabase.update(rows)
 
