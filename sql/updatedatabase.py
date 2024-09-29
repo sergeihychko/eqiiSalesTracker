@@ -26,10 +26,15 @@ def update(rows:list[salesitem]):
     conn.close()
 
 def dump():
-    conn = sqlite3.connect('../eqiisales.db')
+    conn = sqlite3.connect('eqiisales.db')
     c = conn.cursor()
-    c.execute("SELECT Count() from rawsales")
+    try:
+        c.execute("DROP TABLE IF EXISTS rawsales")
+        c.execute("DROP TABLE rawsales")
+    except:
+        print("Error: dropping table")
 
+    conn.commit()
     conn.close()
 
 class UpdateDatabase:

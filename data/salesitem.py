@@ -2,7 +2,7 @@ import uuid
 from dataclasses import dataclass, field
 
 
-@dataclass
+@dataclass(order=True)
 class SalesItem:
     server: str
     seller: str

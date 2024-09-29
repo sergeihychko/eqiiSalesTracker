@@ -9,7 +9,7 @@ import pandas as pd
 # project class imports
 import driver
 from fileio import filereader, dirutils
-from sql import schema
+from sql import schema, updatedatabase
 
 
 # method definitions
@@ -210,7 +210,8 @@ utilObj = dirutils.Dirutils()
 utilObj.directory_name = application_title
 currentPathToGenerate = ""
 driveList = utilObj.findDrives()
-#createdb(database)
+#TODO remove the drop table call when moving files is complete
+updatedatabase.dump()
 
 # Begin defining the top level pane.
 root = Tk()
