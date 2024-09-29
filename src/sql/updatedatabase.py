@@ -1,6 +1,6 @@
 import sqlite3
 
-from data import salesitem
+from src.data import salesitem
 
 
 def update(rows:list[salesitem]):
@@ -9,7 +9,7 @@ def update(rows:list[salesitem]):
     c = conn.cursor()
     for sitem in rows:
         sqlstatement = """CREATE TABLE IF NOT EXISTS rawsales (
-                id TEXT PRIMARY KEY, 
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 server TEXT,
                 seller TEXT,
                 salesdate TEXT,
@@ -19,8 +19,8 @@ def update(rows:list[salesitem]):
         );"""
         c.execute(sqlstatement)
         conn.commit()
-        c.execute("INSERT INTO rawsales (id, server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?, ?)",
-                  (sitem.id, sitem.server, sitem.seller, sitem.salesdate, sitem.description, sitem.price))
+        c.execute("INSERT INTO rawsales (server, seller, salesdate, description, price) VALUES (?, ?, ?, ?, ?)",
+                  (sitem.server, sitem.seller, sitem.salesdate, sitem.description, sitem.price))
         conn.commit()
 
     conn.close()

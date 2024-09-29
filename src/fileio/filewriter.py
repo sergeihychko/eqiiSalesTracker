@@ -1,6 +1,6 @@
 import os
 
-from data import salesitem
+from src.data import salesitem
 
 
 class Filewriter:
@@ -12,7 +12,7 @@ class Filewriter:
         print("outputfile :" + self.outputFile)
         if os.path.exists(self.outputFile):
             os.remove(self.outputFile)
-        oFile = open(self.outputFile, "w+")
-        for row in rows:
-            oFile.write("test" + row.description + " for " + row.price + "\\" + row.salesdate + "\n")
-        return status
+        with open(self.outputFile, "w+") as oFile:
+            for row in rows:
+                oFile.write("test" + row.description + " for " + row.price + "\\" + row.salesdate + "\n")
+            return status

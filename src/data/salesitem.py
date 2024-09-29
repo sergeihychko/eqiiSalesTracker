@@ -1,4 +1,3 @@
-import uuid
 from dataclasses import dataclass, field
 
 
@@ -10,5 +9,5 @@ class SalesItem:
     description: str
     price: str
     absoluteprice: str
-    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    numbought: int = field(default=1)
 

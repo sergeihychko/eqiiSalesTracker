@@ -11,7 +11,7 @@ def create_tables(database):
         """DROP TABLE rawsales;
         """,
         """CREATE TABLE IF NOT EXISTS rawsales (
-                id TEXT PRIMARY KEY, 
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 server TEXT,
                 seller TEXT,
                 salesdate TEXT,
