@@ -11,7 +11,7 @@ class Driver:
     def generate_directory(self):
         utilObj = dirutils.Dirutils()
         directory_list_path = self.directory_name + "\\" + "\\" + "logs" + "\\" + "\\" + self.server_name
-        fileList = utilObj.directoryList(directory_list_path)
+        fileList = utilObj.directory_list(directory_list_path)
         print(' '.join(fileList))
 
         myParser = parser.Parser()

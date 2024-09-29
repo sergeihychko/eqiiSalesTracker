@@ -54,7 +54,7 @@ class GUIDriver:
         print("foldSelect - This is the folder passed : " + adjPath)
         varSer = StringVar()
         self.utilObj.workingPath = adjPath
-        server_list = self.utilObj.findEQIIServer(adjPath)
+        server_list = self.utilObj.find_eqii_server(adjPath)
         if len(server_list) == 0:
             print("length was zero")
             self.update_statusbar("No Logs Found.")
@@ -86,7 +86,7 @@ class GUIDriver:
         detail_pane.geometry("500x340")
         detail_pane.title("Sales Details")
         varD=StringVar()
-        mlist = self.utilObj.directoryList(self.output_directory)
+        mlist = self.utilObj.directory_list(self.output_directory)
         if len(mlist) == 0:
             file_list = ["No files present"]
         else:
@@ -231,7 +231,7 @@ class GUIDriver:
 
         #Instantiate utility classes
         self.utilObj.directory_name = self.application_title
-        self.driveList = self.utilObj.findDrives()
+        self.driveList = self.utilObj.find_drives()
         #TODO remove the drop table call when moving files is complete
         updatedatabase.dump()
 

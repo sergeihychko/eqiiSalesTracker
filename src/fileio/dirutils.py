@@ -1,41 +1,63 @@
+"""
+module of directory related functions
+"""
 import os
 import re
 from pathlib import Path
 
 class Dirutils:
-
+    """support for querying directories."""
     current_drive = ""
     directory_name = ""
     workingPath = ""
     server_name = ""
     generatePath = ""
 
-    def directoryList(self, dirToSearch):
+    def directory_list(self, dir_to_search):
+        """
+        param dirToSearch: directory to search for files.
+        returns: file List[] of all files under param1.
+        """
         regex = ".*(.2024)"
-        dirList = []
-        for i in os.listdir(dirToSearch):
+        dir_list = []
+        for i in os.listdir(dir_to_search):
             if re.match(regex, i):
                 pass
             else:
-                dirList.append(i)
-        return dirList
+                dir_list.append(i)
+        return dir_list
 
-    def findDrives(self):
+    def find_drives(self):
+        """
+        finds all drives for current device
+        :return: list of drives
+        """
         return os.listdrives()
 
-    def findEQII(self, head_dir, dir_name):
-        outputList = []
-        for root, dirs, files in os.walk(head_dir):
+    def find_eqii(self, head_dir, dir_name):
+        """
+        Searches a selected drive for a specific directory
+        :param head_dir: essentially the devices drive letter
+        :param dir_name: the name being searched for
+        :return:
+        """
+        output_list = []
+        for root, dirs in os.walk(head_dir):
             for d in dirs:
                 if d.upper() == dir_name.upper( ):
-                    outputList.append(os.path.join (root, d))
-        return outputList
+                    output_list.append(os.path.join (root, d))
+        return output_list
 
-    def findEQIIServer(self, head_dir):
+    def find_eqii_server(self, head_dir):
+        """
+        gathers a list of n possible server names (folders) under a directory
+        :param head_dir: the directory to query for list
+        :return: a list of server (folder) names
+        """
         d = head_dir + "\\" + "\\" + "logs" + "\\" + "\\"
-        outputList = []
-        filePath = Path(d)
-        if filePath.exists():
+        output_list = []
+        file_path = Path(d)
+        if file_path.exists():
             for filename in os.listdir(d):
-                outputList.append(filename)
-        return outputList
+                output_list.append(filename)
+        return output_list
