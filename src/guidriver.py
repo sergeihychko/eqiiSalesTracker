@@ -111,7 +111,7 @@ class GUIDriver:
             pass
         else:
             filereaderObj.fileToSearch = varD
-        file_list = filereaderObj.getRows()
+        file_list = filereaderObj.get_rows()
         if len(file_list) == 0:
             print("The file " + filereaderObj.fileToSearch + " was empty!")
             self.repopulate_tree(varD)

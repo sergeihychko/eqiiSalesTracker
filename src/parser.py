@@ -64,7 +64,7 @@ class Parser:
                                     sitem = salesitem.SalesItem(self.server, self.seller, datestamp, item, price, price)
                                     rows.append(sitem)
         print("calling outputwriter with rows")
-        outputwriter.writeRows(rows)
+        outputwriter.write_rows(rows)
         print("calling dbupdate with rows")
         updatedatabase.update(rows)
 
