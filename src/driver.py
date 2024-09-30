@@ -4,7 +4,6 @@ module to wrap functionality for parsing input files
 import parser
 from fileio import dirutils
 
-
 class Driver:
     """
     class to wrap methods for generating output files after parsing

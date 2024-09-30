@@ -1,3 +1,7 @@
+"""
+module containing the class which wraps the gui components,
+ and event handling for the Seller project
+"""
 import os
 import re
 import tkinter as tk
@@ -14,6 +18,9 @@ from sql import schema, updatedatabase
 
 
 class GUIDriver:
+    """
+    class containing all gui components and event methods
+    """
     utilObj = dirutils.Dirutils()
     driver_object = driver.Driver()
     application_title = ""
@@ -33,12 +40,19 @@ class GUIDriver:
         self.create_widgets()
 
     def run(self):
+        """
+        run entry point for the top level gui object
+        """
         self.root.mainloop()
 
     def generateFiles(self):
+        """
+        function that will attempt to generate the output dir and files
+        when the button is selected. If the drive, folder, and server have been selected.
+        :return:
+        """
         search_path = self.utilObj.workingPath
         print(" inside generateFiles() :" + search_path)
-        #TODO clean up driver code
         self.driver_object.directory_name = self.utilObj.workingPath
         self.driver_object.server_name = self.utilObj.server_name
         self.driver_object.output_dir = self.output_directory
