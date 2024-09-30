@@ -1,3 +1,7 @@
+"""
+module to contain functionality related to parsing log files,
+and outputting the data to the database and flatfile
+"""
 import os
 import re
 
@@ -7,6 +11,9 @@ from sql import updatedatabase
 
 
 class Parser:
+    """
+    class encapsulating functionality for parsing log files and outputting matched rows
+    """
     rootDir = ""
     fileToSearch = ""
     outputFile = ""
@@ -15,16 +22,20 @@ class Parser:
     seller = ""
 
     def parseLogFile(self):
-        #TODO redo this method to store the line items into a list and then call a function to write to the output file and the database separately.
+        """
+        parses a file for matching sales detail lines and stores them in a list,
+        then outputs the list to the database and a file
+        :return:
+        """
         rows = []
         outputwriter = filewriter.Filewriter()
         outputwriter.outputFile=self.outputFile
 
-        for relPath,dirs,files in os.walk(self.rootDir):
+        for rel_path, dirs,files in os.walk(self.rootDir):
             if self.fileToSearch in files:
-                fullPath = os.path.join(self.rootDir,relPath,self.fileToSearch)
-                print("input file :" +fullPath)
-                with open(fullPath,"r") as inputfile:
+                full_path = os.path.join(self.rootDir,rel_path,self.fileToSearch)
+                print("input file :" +full_path)
+                with open(full_path,"r", encoding="utf-8") as inputfile:
                     data = inputfile.readlines()
                     for line in data:
                         if len(line) > 38:
@@ -61,7 +72,7 @@ class Parser:
                                             price = price + ("~" + i[9:12])
                                     #price = bought_data[bought_data.find("for ") + 12:len(bought_data)]
                                     #price = price[0:price.find("\\")]
-                                    sitem = salesitem.SalesItem(self.server, self.seller, datestamp, item, price, price)
+                                    sitem = salesitem.SalesItem(self.server, self.seller, datestamp, item, price, price, num_bought)
                                     rows.append(sitem)
         print("calling outputwriter with rows")
         outputwriter.write_rows(rows)

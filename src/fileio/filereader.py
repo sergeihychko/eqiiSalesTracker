@@ -17,7 +17,7 @@ class Filereader:
         :return: list of lines from the file.
         """
         return_rows = []
-        for rel_path,files in os.walk(self.rootDir):
+        for rel_path, dirs,files in os.walk(self.rootDir):
             if self.fileToSearch in files:
                 full_path = os.path.join(self.rootDir,rel_path,self.fileToSearch)
                 print("input file :" +full_path)

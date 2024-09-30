@@ -42,7 +42,7 @@ class Dirutils:
         :return:
         """
         output_list = []
-        for root, dirs in os.walk(head_dir):
+        for root, dirs, files in os.walk(head_dir):
             for d in dirs:
                 if d.upper() == dir_name.upper( ):
                     output_list.append(os.path.join (root, d))

@@ -85,10 +85,10 @@ class GUIDriver:
 
     def dc(self, event):
         varF = StringVar()
-        driveLetter = event
-        self.update_statusbar("Searching Drive  " + driveLetter)
-        self.utilObj.current_drive = driveLetter
-        folder_list = self.utilObj.findEQII(driveLetter, "Everquest II")
+        drive_letter = event
+        self.update_statusbar("Searching Drive  " + drive_letter)
+        self.utilObj.current_drive = drive_letter
+        folder_list = self.utilObj.find_eqii(drive_letter, "Everquest II")
         varF.set(folder_list[0])
         drop = OptionMenu(self.root, varF, *folder_list, command=self.foldSelect)
         drop.grid(row=1, column=2)
