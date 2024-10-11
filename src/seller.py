@@ -28,6 +28,7 @@ class GUIDriver:
     price_limit = ""
     database = ""
     driveList = []
+    seller_list = []
 
     def __init__(self):
         self.root = tk.Tk()
@@ -63,6 +64,9 @@ class GUIDriver:
 
     def dwClick(self):
         pass
+
+    def generate_seller_list(self):
+        self.seller_list = updatedatabase.get_seller_list()
 
     def foldSelect(self, adjPath):
         print("foldSelect - This is the folder passed : " + adjPath)
@@ -100,25 +104,28 @@ class GUIDriver:
         detail_pane.geometry("500x340")
         detail_pane.title("Sales Details")
         varD=StringVar()
-        mlist = self.utilObj.directory_list(self.output_directory)
-        if len(mlist) == 0:
-            file_list = ["No files present"]
+        if len(self.seller_list) == 0:
+            file_list = ["No sellers present"]
         else:
-            file_list = mlist
+            file_list = self.seller_list
         varD.set(file_list[0])
         det_label = ttk.Label(detail_pane, text='Detail Pane')
         det_label.grid(row=0, column=0)
+        det_button = ttk.Button(detail_pane, text="refresh", command=self.generate_seller_list)
+        det_button.grid(row=0, column=2)
         drop_details = OptionMenu(detail_pane, varD, *file_list, command=self.repopulate_detail)
         drop_details.grid(row=1, column=0)
         self.populate_detail(detail_pane, '')
         detail_pane.mainloop()
 
     def repopulate_detail(self, varD):
-        print(" repopulate_detail :" + varD)
+        #print(" repopulate_detail :" + varD)
         self.populate_detail(detail_pane, varD)
+        self.create_window()
 
     def populate_detail(self, panel, varD):
         global df
+        seller = varD[0]
         filereaderObj = filereader.Filereader()
         filereaderObj.rootDir = self.output_directory
         if len(varD) == 0:
@@ -126,6 +133,10 @@ class GUIDriver:
         else:
             filereaderObj.fileToSearch = varD
         file_list = filereaderObj.get_rows()
+        print("about to call db retrieve: " + seller)
+        file_list2 = updatedatabase.retrieve_seller_data(seller)
+        for b in file_list2:
+            print("db returned row : " + str(b))
         if len(file_list) == 0:
             print("The file " + filereaderObj.fileToSearch + " was empty!")
             self.repopulate_tree(varD)
@@ -266,7 +277,18 @@ class GUIDriver:
         self.root.dwButton.grid(row = 3, column = 0)
         self.update_statusbar("idle")
 
+class Seller():
+    """
+    a class that builds the app based on the design of class::GUIDriver
+    """
+    def build(self):
+        return GUIDriver()
 
 if __name__ == "__main__":
     driver = GUIDriver()
     driver.run()
+
+##########################
+# author: Serge Hychko
+#date: September 2024
+##########################

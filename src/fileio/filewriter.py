@@ -26,6 +26,6 @@ class Filewriter:
             os.remove(self.outputFile)
         with open(self.outputFile, "w+", encoding="utf-8") as output_file:
             for row in rows:
-                output_file.write("test" + row.description + " for " + row.price +
+                output_file.write(row.description + " for " + row.price +
                             "\\" + row.salesdate + "\n")
             return status
