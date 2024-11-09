@@ -52,17 +52,15 @@ def retrieve_seller_data(seller):
     :return: all rows connected to seller in rawsales table
     """
     results = []
-    conn = sqlite3.connect('eqiisales.db')
-    c = conn.cursor()
-    query = "SELECT * FROM rawsales where seller = ?;"
-    print("query is : " + query)
-    try:
-        c.execute(query, (seller,))
-        results = c.fetchall()
-    except Exception as err:
-        print("Error: querying rawsales table for seller: " + str(err))
-    conn.commit()
-    conn.close()
+    # Create an engine to connect to your database
+    engine = create_engine('sqlite:///eqiisales.db')
+
+    Session = sessionmaker(bind=engine)
+    # session = Session()
+    with Session() as session:
+        query = session.query(salesitem.SalesItem).filter_by(seller=seller)
+        items_for_seller = query.all()
+        results = items_for_seller
     return results
 
 class UpdateDatabase:
