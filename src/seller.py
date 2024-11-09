@@ -239,9 +239,6 @@ class GUIDriver:
                 ret_val += float(left_op/1000)
         return ret_val
 
-    def createdb(database):
-        schema.create_tables(database)
-
     def create_widgets(self):
         #load configuration options
         config = ConfigParser()
@@ -259,6 +256,7 @@ class GUIDriver:
         self.driveList = self.utilObj.find_drives()
         #TODO remove the drop table call when moving files is complete
         schema.dump()
+        schema.create_tables(self.database)
 
         sort_order = True
         self.root.myLabel0 = Label(self.root, text = "Available Drives: ")

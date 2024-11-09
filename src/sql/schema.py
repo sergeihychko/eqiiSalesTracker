@@ -19,7 +19,8 @@ def create_tables(database):
                 salesdate TEXT,
                 description TEXT,
                 price TEXT,
-                absoluteprice REAL
+                absoluteprice REAL,
+                numbought INTEGER
         );"""]
 
     # create a database connection
@@ -31,6 +32,7 @@ def create_tables(database):
 
             conn.commit()
     except sqlite3.Error as e:
+        print("rawsales table not created")
         print(e)
 
 def dump():
