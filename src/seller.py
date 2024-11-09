@@ -258,7 +258,7 @@ class GUIDriver:
         self.utilObj.directory_name = self.application_title
         self.driveList = self.utilObj.find_drives()
         #TODO remove the drop table call when moving files is complete
-        updatedatabase.dump()
+        schema.dump()
 
         sort_order = True
         self.root.myLabel0 = Label(self.root, text = "Available Drives: ")
